@@ -216,8 +216,6 @@
         @endforeach
     </ul>
 
-    <a href="/foods/add" class="add-food-button">Tambah Makanan</a>
-
     @if(session('success'))
         <div class="success-message" id="successMessage">
             Food added successfully! <br> <a href="/foods">Click here to view foods</a>

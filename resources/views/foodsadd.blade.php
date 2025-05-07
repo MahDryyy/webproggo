@@ -8,33 +8,48 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f4f7fc;
+            background-color: #f7f9fc;
             color: #333;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .form-container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 20px auto;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .form-container h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #4caf50;
         }
         .form-container input {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        .form-container input:focus {
+            border-color: #4caf50;
+            outline: none;
         }
         .form-container button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: #4caf50;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: white;
             font-size: 1.2em;
             cursor: pointer;
@@ -45,14 +60,14 @@
         }
         p.error {
             color: red;
-            text-align: center;
             font-weight: bold;
+            margin-top: 10px;
         }
         .success-message {
             background-color: #4caf50;
             color: white;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             text-align: center;
             margin-top: 30px;
             display: none;
@@ -61,7 +76,7 @@
             transform: translateX(-50%);
             bottom: 20px;
             width: 80%;
-            max-width: 400px;
+            max-width: 500px;
             animation: slideIn 1s ease-out;
             cursor: pointer;
         }
@@ -80,26 +95,32 @@
                 transform: translateY(0);
             }
         }
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 25px;
+            }
+            .form-container h3 {
+                font-size: 1.8em;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
     <h3>Add New Food</h3>
-    
+
     @if(session('error'))
         <p class="error">{{ session('error') }}</p>
     @endif
-    
+
     <form action="/foods" method="POST">
         @csrf
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-
+        <label for="name">Food Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter food name" required>
+        
         <label for="expiry_date">Expiry Date:</label>
         <input type="date" id="expiry_date" name="expiry_date" required>
-        <br>
 
         <button type="submit">Add Food</button>
     </form>
@@ -116,10 +137,10 @@
        
         document.getElementById('successMessage').style.display = 'block';
 
-  
-        document.getElementById('successMessage').onclick = function() {
-            window.location.href = '/foods';
-        };
+       
+        setTimeout(function() {
+            window.location.href = '/foods'; 
+        }, 3000);
     @endif
 </script>
 

@@ -13,7 +13,8 @@ Route::get('/foods', [GolangApiController::class, 'getFoods']);
 Route::post('/foods', [GolangApiController::class, 'addFood']);
 Route::delete('/foods/{id}', [GolangApiController::class, 'deleteFood']);
 Route::get('/recipes', [GolangApiController::class, 'getRecipes']);
-Route::post('/recipe', [GolangApiController::class, 'addRecipe']);  
+Route::post('/recipe', [GolangApiController::class, 'addRecipe']);
+Route::get('/dashboard', [GolangApiController::class, 'dashboard']);  
 Route::get('/foods/add', function () {
     return view('foodsadd');
 });
