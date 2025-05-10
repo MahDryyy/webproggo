@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foods</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f4f7fc;
+            background: linear-gradient(135deg, #f4f7fc 0%, #ffffff 100%);
             color: #333;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         h1 {
@@ -20,11 +25,23 @@
             color: #4caf50;
             margin-top: 40px;
             font-size: 3em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 10px;
+            animation: fadeInDown 1s ease-out;
         }
 
-        h3 {
-            color: #4caf50;
-            margin-bottom: 10px;
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #4caf50;
+            border-radius: 2px;
         }
 
         ul {
@@ -42,12 +59,37 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         li:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(76, 175, 80, 0.1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+
+        li:hover::before {
+            transform: scaleX(1);
+        }
+
+        li > * {
+            position: relative;
+            z-index: 1;
         }
 
         .recipe-button, button[type="submit"] {
@@ -58,11 +100,12 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .recipe-button:hover, button[type="submit"]:hover {
             background-color: #45a049;
+            transform: scale(1.05);
         }
 
         .recipe-content {
@@ -74,70 +117,15 @@
             animation: fadeIn 0.5s ease-out;
         }
 
-        .loading {
-            color: #4caf50;
-            font-size: 18px;
-            display: inline-block;
-            padding: 10px;
-        }
-
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 20px auto;
-        }
-
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 1em;
-        }
-
-        .form-container button {
-            width: 100%;
-            padding: 12px;
-            background-color: #4caf50;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .form-container button:hover {
-            background-color: #45a049;
-        }
-
-        p.error {
-            color: red;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .add-food-button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #4caf50;
-            color: white;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 30px;
-            text-align: center;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-        }
-
-        .add-food-button:hover {
-            background-color: #45a049;
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeIn {
@@ -148,46 +136,18 @@
                 opacity: 1;
             }
         }
-
-        .success-message {
-            background-color: #4caf50;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            margin-top: 30px;
-            display: none;
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 20px;
-            width: 80%;
-            max-width: 400px;
-            animation: slideIn 1s ease-out;
-            cursor: pointer;
-        }
-
-        .success-message a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     </style>
 </head>
 <body>
+    <div style="position: absolute; top: 20px; left: 20px;">
+        <a href="/dashboard">
+            <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </a>
+    </div>
 
-    <h1>Foods</h1>
+    <h1 data-aos="fade-up">Foods</h1>
 
     @if(session('error'))
         <p class="error">{{ session('error') }}</p>
@@ -195,7 +155,7 @@
 
     <ul>
         @foreach($foods as $food)
-            <li>
+            <li data-aos="fade-up">
                 <div>
                     <strong>{{ $food['name'] }}</strong> - Expiry: {{ $food['expiry_date'] }}
                 </div>
@@ -206,7 +166,7 @@
                     <form action="/foods/{{ $food['id'] }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Delete</button>
+                        <button type="submit"><i class="fas fa-trash"></i> Delete</button>
                     </form>
                 </div>
 
@@ -223,6 +183,8 @@
     @endif
 
     <script>
+    AOS.init();
+
     $(document).ready(function() {
         $('.recipe-button').click(function() {
             var foodId = $(this).data('food-id');
@@ -267,9 +229,7 @@
 
             return formattedText;
         }
-
     });
     </script>
-
 </body>
 </html>

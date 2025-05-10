@@ -17,9 +17,9 @@
             color: white;
             text-align: center;
             padding: 30px;
-            font-size: 2rem; /* Larger font size for the header */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adding a shadow for better contrast */
-            border-bottom: 3px solid #333; /* Adding a border for more definition */
+            font-size: 2rem; 
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+            border-bottom: 3px solid #333; 
         }
 
         .container {
@@ -49,6 +49,27 @@
 
         .recipe-info {
             margin-top: 10px;
+        }
+
+        button[type="submit"] {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e60000;
+            transform: scale(1.05);
+        }
+
+        button[type="submit"]:active {
+            background-color: #cc0000;
+            transform: scale(1);
         }
 
         .ingredients, .instructions {
@@ -94,16 +115,18 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Recipe List</h1>
-        
-    </header>
 
-    <a class="back" href="/dashboard">
-            <button>
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
+    <div style="position: absolute; top: 20px; left: 20px; border: 2px solid rgb(38, 38, 38); border-radius: 8px; padding: 5px;">
+        <a href="/dashboard">
+            <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
+                <
             </button>
         </a>
+    </div>
+    <header style="font-family: 'Georgia', serif; font-style: italic;">
+        <h1 style="font-family: 'Times New Roman', serif;">Recipe List</h1>
+        <i style="font-family: 'Palatino Linotype', serif;">Just for you</i>
+    </header>
 
     <div class="container">
         @if(session('error'))
@@ -111,17 +134,23 @@
         @endif
 
         @if(isset($recipes) && !empty($recipes))
-            @foreach($recipes as $recipe)
-                <div class="recipe-card">
-                    <h2 class="recipe-title">Resep:</h2>
-                    <div class="recipe-info">
-                        {!! nl2br(e($recipe)) !!}
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <p class="error-message">No recipes available.</p>
-        @endif
+    @foreach($recipes as $recipe)
+        <div class="recipe-card">
+            <h2 class="recipe-title">Resep:</h2>
+            <div class="recipe-info">
+                {!! nl2br(e($recipe['recipe'])) !!}
+            </div>
+            <form action="{{ route('recipes.delete', $recipe['id']) }}" method="POST" style="margin-top: 10px;">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    @endforeach
+@else
+    <p class="error-message">No recipes available.</p>
+@endif
+
 
         <a href="/foods">Back to Foods</a>
     </div>

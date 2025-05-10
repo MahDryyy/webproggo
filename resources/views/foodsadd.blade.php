@@ -106,6 +106,13 @@
     </style>
 </head>
 <body>
+    <div style="position: absolute; top: 20px; left: 20px;">
+        <a href="/dashboard">
+            <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
+                <
+            </button>
+        </a>
+    </div>
 
 <div class="form-container">
     <h3>Add New Food</h3>

@@ -10,14 +10,17 @@ Route::post('/register', [GolangApiController::class, 'register']);
 Route::get('/login', [GolangApiController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [GolangApiController::class, 'login']);
 Route::get('/foods', [GolangApiController::class, 'getFoods']);
+
 Route::post('/foods', [GolangApiController::class, 'addFood']);
-Route::delete('/foods/{id}', [GolangApiController::class, 'deleteFood']);
+Route::delete('/foods/{id}', [GolangApiController::class, 'deleteFood'])->name('foods.delete');
+Route::delete('/recipes/{id}', [GolangApiController::class, 'deleteRecipe'])->name('recipes.delete');
 Route::get('/recipes', [GolangApiController::class, 'getRecipes']);
 Route::post('/recipe', [GolangApiController::class, 'addRecipe']);
 Route::get('/dashboard', [GolangApiController::class, 'dashboard']);  
 Route::get('/foods/add', function () {
     return view('foodsadd');
 });
+Route::get('/user', [GolangApiController::class, 'getUser']);
 
 
 
