@@ -22,6 +22,7 @@
 
         h1 {
             text-align: center;
+            
             color: #4caf50;
             margin-top: 40px;
             font-size: 3em;
@@ -29,19 +30,6 @@
             letter-spacing: 2px;
             position: relative;
             padding-bottom: 10px;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: #4caf50;
-            border-radius: 2px;
         }
 
         ul {
@@ -59,42 +47,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(76, 175, 80, 0.1);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-            z-index: 0;
-        }
-
-        li:hover::before {
-            transform: scaleX(1);
-        }
-
-        li > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .recipe-button, button[type="submit"] {
+        button[type="submit"] {
             padding: 10px 20px;
             background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .delete-button {
+            padding: 10px 20px;
+            background-color: #ff5722;
             color: white;
             border: none;
             border-radius: 5px;
@@ -103,8 +75,8 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .recipe-button:hover, button[type="submit"]:hover {
-            background-color: #45a049;
+        .delete-button:hover {
+            background-color: #e64a19;
             transform: scale(1.05);
         }
 
@@ -114,122 +86,203 @@
             padding: 10px;
             margin-top: 10px;
             display: none;
-            animation: fadeIn 0.5s ease-out;
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .loading {
+            text-align: center;
+            font-size: 1.5em;
+            color: #4caf50;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        .reload-button {
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+
+        .reload-button:hover {
+            background-color: #e53935;
+        }
+
+        .delete-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .delete-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .delete-confirm-button, .delete-cancel-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-confirm-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .delete-confirm-button:hover {
+            background-color: #e53935;
+        }
+
+        .delete-cancel-button {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .delete-cancel-button:hover {
+            background-color: #45a049;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 1.2em;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div style="position: absolute; top: 20px; left: 20px;">
-        <a href="/dashboard">
-            <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-        </a>
-    </div>
+    <button onclick="window.history.back()" style="display: block; margin: 20px 0 20px 20px; padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em;"><</button>
+    <h1>Foods</h1>
 
-    <h1 data-aos="fade-up">Foods</h1>
-
-    @if(session('error'))
-        <p class="error">{{ session('error') }}</p>
+    @if(empty($foods))
+        <p style="text-align: center; font-size: 1.2em; color: #ff5722;">No foods available. Please add some food items.</p>
+    
+    @else
+        <form id="recipeForm">
+            <ul>
+                @foreach($foods as $food)
+                    <li data-aos="fade-up">
+                        <div>
+                            <input type="checkbox" class="food-checkbox" data-food-id="{{ $food['id'] }}"> 
+                            <strong>{{ $food['name'] }}</strong> - Expiry: {{ $food['expiry_date'] }}
+                        </div>
+                        <button type="button" class="delete-button" onclick="deleteFood({{ $food['id'] }})"><i class="fas fa-trash"></i> Delete</button>
+                        <div id="recipe-{{ $food['id'] }}" class="recipe-content"></div>
+                    </li>
+                @endforeach
+            </ul>
+            <button type="submit" style="margin-top: 20px;">Generate Recipes</button>
+        </form>
     @endif
 
-    <ul>
-        @foreach($foods as $food)
-            <li data-aos="fade-up">
-                <div>
-                    <strong>{{ $food['name'] }}</strong> - Expiry: {{ $food['expiry_date'] }}
-                </div>
+    <button class="reload-button" onclick="location.reload()">Reload Page</button>
 
-                <div>
-                    <button class="recipe-button" data-food-id="{{ $food['id'] }}">Resep</button>
+    <div id="recipe-result" class="recipe-content"></div>
 
-                    <form action="/foods/{{ $food['id'] }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"><i class="fas fa-trash"></i> Delete</button>
-                    </form>
-                </div>
-
-                <div id="recipe-{{ $food['id'] }}" class="recipe-content">
-                </div>
-            </li>
-        @endforeach
-    </ul>
-
-    @if(session('success'))
-        <div class="success-message" id="successMessage">
-            Food added successfully! <br> <a href="/foods">Click here to view foods</a>
+    <div id="delete-confirmation" class="delete-card" style="display: none;">
+        <div class="delete-card-content">
+            <p>Are you sure you want to delete this food item?</p>
+            <button class="delete-confirm-button" onclick="confirmDelete()">Yes, Delete</button>
+            <button class="delete-cancel-button" onclick="cancelDelete()">Cancel</button>
         </div>
-    @endif
+    </div>
 
     <script>
     AOS.init();
 
     $(document).ready(function() {
-        $('.recipe-button').click(function() {
-            var foodId = $(this).data('food-id');
-            var recipeContent = $('#recipe-' + foodId);
+        $('#recipeForm').submit(function(event) {
+            event.preventDefault();
 
-            if (recipeContent.is(':visible')) {
-                recipeContent.fadeOut();
+            var selectedFoodIds = [];
+            $('.food-checkbox:checked').each(function() {
+                selectedFoodIds.push($(this).data('food-id'));
+            });
+
+            if (selectedFoodIds.length === 0) {
+                alert("Please select at least one food item.");
                 return;
             }
 
-            recipeContent.html('<div class="loading">Loading...</div>').fadeIn();
+            $('button[type="submit"]').text('Loading...').attr('disabled', true);
+            $('#recipe-result').html('<div class="loading">Loading...</div>').fadeIn();
 
             $.ajax({
                 url: '/recipe',
                 method: 'POST',
                 data: JSON.stringify({
                     _token: '{{ csrf_token() }}',
-                    food_id: foodId
+                    food_id: selectedFoodIds
                 }),
                 contentType: 'application/json',
                 success: function(response) {
+                    var recipeContent = $('#recipe-result');
                     if (response.recipe) {
-                        var formattedRecipe = formatRecipe(response.recipe);
+                        var formattedRecipe = response.recipe.replace(/\n/g, '<br>');
                         recipeContent.html(formattedRecipe).fadeIn();
                     } else {
                         recipeContent.html('<p>Resep tidak ditemukan.</p>').fadeIn();
                     }
+
+                    $('button[type="submit"]').text('Generate Recipes').attr('disabled', false);
                 },
                 error: function(xhr, status, error) {
-                    recipeContent.html('<p>Terjadi kesalahan saat memproses request.</p>').fadeIn();
+                    console.error("Error:", error);
+                    alert("An error occurred while generating the recipes.");
+                    $('button[type="submit"]').text('Generate Recipes').attr('disabled', false);
                 }
             });
         });
-
-        function formatRecipe(recipeText) {
-            var formattedText = recipeText;
-
-            formattedText = formattedText.replace(/## (.*?) ##/g, '<h3>$1</h3>');
-            formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            formattedText = '<p>' + formattedText.replace(/\n/g, '</p><p>') + '</p>';
-            formattedText = formattedText.replace(/(\d+\.|•) (.*?)<\/strong>/g, '<ul><li>$2</li></ul>');
-
-            return formattedText;
-        }
     });
+
+    let foodToDelete = null;
+
+    function deleteFood(foodId) {
+        foodToDelete = foodId;
+        document.getElementById('delete-confirmation').style.display = 'block';
+    }
+
+    function confirmDelete() {
+        $('#delete-confirmation').html('<div class="loading">Deleting...</div>');
+        
+        if (foodToDelete !== null) {
+            $.ajax({
+                url: '/foods/' + foodToDelete,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'DELETE'
+                },
+                success: function(response) {
+                    $('#delete-confirmation').html('<div class="success-message">Food deleted successfully!</div>');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    $('#delete-confirmation').html('<div class="delete-card-content"><p>An error occurred!</p><button class="delete-cancel-button" onclick="cancelDelete()">Close</button></div>');
+                }
+            });
+        }
+    }
+
+    function cancelDelete() {
+        document.getElementById('delete-confirmation').style.display = 'none';
+    }
     </script>
 </body>
 </html>

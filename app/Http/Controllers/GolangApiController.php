@@ -22,6 +22,7 @@ class GolangApiController extends Controller
         $data = [
             'username' => $r->username,
             'password' => $r->password,
+            'email' => $r->email,
             'role' => 'user',
         ];
 
@@ -39,20 +40,38 @@ class GolangApiController extends Controller
         return view('login');
     }
 
-    public function login(Request $r)
-    {
-        $response = Http::post($this->api.'/login', $r->all());
-        $responseData = $response->json();
+   public function login(Request $r)
+{
+    $response = Http::post($this->api.'/login', $r->all());
+    $responseData = $response->json();
 
-        \Log::info('Login API Response: ', ['response' => $responseData]);
+    \Log::info('Login API Response: ', ['response' => $responseData]);
 
-        if ($response->successful() && isset($responseData['token'])) {
-            Session::put('token', $responseData['token']);
+    if ($response->successful() && isset($responseData['token'])) {
+        $role = $responseData['role'] ?? null;
+
+        Session::put('token', $responseData['token']);
+        Session::put('role', $role);
+
+        \Log::info('Role yang diterima:', ['role' => $role]);
+
+        if ($role === 'admin') {
+            return redirect('/admin-dashboard');
+        }else{
             return redirect('/dashboard');
         }
 
-        return back()->with('error', 'Login gagal: ' . ($responseData['error'] ?? 'Unknown error'));
+        
     }
+
+    return back()->with('error', 'Login gagal: ' . ($responseData['error'] ?? 'Unknown error'));
+}
+
+    public function adminDashboard()
+{
+    return view('admin-dashboard'); 
+}
+
 
     public function dashboard()
     {
@@ -106,24 +125,24 @@ class GolangApiController extends Controller
 }
     public function getUser()
     {
-        // Get the token from the session
+     
         $token = Session::get('token');
 
-        // If no token found, redirect to login
+      
         if (!$token) {
             return redirect('/login');
         }
 
-        // Make GET request to the '/user' endpoint with the token
-        $response = Http::withToken($token)->get($this->api.'/users');  // Updated to '/users' endpoint
+        
+        $response = Http::withToken($token)->get($this->api.'/users');  
 
-        // If the response is successful, pass the users data to the view
+        
         if ($response->successful()) {
-            $users = $response->json()['users'];  // Get the 'users' array from the response
+            $users = $response->json()['users'];  
             return view('user', ['users' => $users]);
         }
 
-        // If something goes wrong, return with an error message
+       
         return back()->with('error', 'Gagal mengambil data users');
     }
 
@@ -147,22 +166,52 @@ class GolangApiController extends Controller
         return back()->with('error', 'Gagal menghapus makanan');
     }
 
-    public function deleteRecipe($id)
-    {
-        $token = Session::get('token');
+   public function deleteRecipe($id)
+{
 
-        if (!$token) {
-            return redirect('/login');
-        }
+    $token = Session::get('token');
 
-        $response = Http::withToken($token)->delete($this->apitest.'/recipes/'.$id);
-
-        if ($response->successful()) {
-            return redirect('/recipes');
-        }
-
-        return back()->with('error', 'Gagal menghapus resep');
+    
+    if (!$token) {
+        return redirect('/login');
     }
+
+   
+    $response = Http::withToken($token)->delete($this->api . '/recipes/' . $id);
+
+    
+    if ($response->successful()) {
+        return redirect('/recipes');
+    }
+
+    
+    return back()->with('error', 'Gagal menghapus resep');
+}
+
+    public function getLoginLogs()
+{
+    $token = Session::get('token');
+
+    if (!$token) {
+        return redirect('/login');
+    }
+
+    $response = Http::withToken($token)->get($this->api . '/login-logs');
+
+    if ($response->successful()) {
+        $loginLogs = $response->json()['login_logs'] ?? [];
+
+        if (empty($loginLogs)) {
+            return view('loginlogs.index', ['loginLogs' => [], 'message' => 'Tidak ada login logs ditemukan.']);
+        }
+
+        return view('loginlogs', ['loginLogs' => $loginLogs]);
+    }
+
+    return back()->with('error', 'Gagal mengambil login logs');
+}
+
+
 
     public function getRecipes()
     {
@@ -172,7 +221,7 @@ class GolangApiController extends Controller
             return redirect('/login');
         }
     
-        $response = Http::withToken($token)->get($this->apitest.'/recipes');
+        $response = Http::withToken($token)->get($this->api.'/recipes');
     
         if ($response->successful()) {
             $recipes = $response->json()['recipes'] ?? [];
@@ -191,41 +240,43 @@ class GolangApiController extends Controller
     
 
 
-    public function addRecipe(Request $r)
-    {
-        $token = Session::get('token');
-   
+   public function addRecipe(Request $r)
+{
+    $token = Session::get('token');
 
-
-        if (!$token) {
-            return response()->json(['error' => 'Token tidak valid'], 401);
-        }
-
-        $foodId = $r->food_id;
-        if (empty($foodId) || !is_numeric($foodId) || $foodId <= 0) {
-            return response()->json(['error' => 'food_id tidak valid'], 400);
-        }
-
-        try {
-            $response = Http::withToken($token)->post($this->api.'/recipe', [
-                'food_id' => $foodId
-            ]);
-
-       
-
-            if ($response->successful()) {
-                $recipe = $response->json()['recipe'] ?? null;
-
-                if ($recipe) {
-                    return response()->json(['recipe' => $recipe], 200);
-                } else {
-                    return response()->json(['error' => 'Resep tidak ditemukan'], 404);
-                }
-            } else {
-                return response()->json(['error' => 'Gagal menghubungi API untuk menghasilkan resep', 'details' => $response->json()], $response->status());
-            }
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Terjadi kesalahan pada server', 'message' => $e->getMessage()], 500);
-        }
+    if (!$token) {
+        return response()->json(['error' => 'Token tidak valid'], 401);
     }
+
+    // Mengambil food_id yang bisa berupa array
+    $foodIds = $r->food_id;
+
+    // Pastikan food_id adalah array dan setiap item di dalamnya adalah angka positif
+    if (empty($foodIds) || !is_array($foodIds) || !collect($foodIds)->every(fn($id) => is_numeric($id) && $id > 0)) {
+        return response()->json(['error' => 'food_id tidak valid'], 400);
+    }
+
+    try {
+        // Kirimkan food_id sebagai array ke API Go
+        $response = Http::withToken($token)->post($this->apitest.'/recipe', [
+            'food_id' => $foodIds // Mengirimkan array food_id
+        ]);
+
+        if ($response->successful()) {
+            $recipe = $response->json()['recipe'] ?? null;
+
+            if ($recipe) {
+                return response()->json(['recipe' => $recipe], 200);
+            } else {
+                return response()->json(['error' => 'Resep tidak ditemukan'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'Gagal menghubungi API untuk menghasilkan resep', 'details' => $response->json()], $response->status());
+        }
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Terjadi kesalahan pada server', 'message' => $e->getMessage()], 500);
+    }
+}
+
+
 }

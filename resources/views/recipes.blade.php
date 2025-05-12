@@ -119,7 +119,7 @@
     <div style="position: absolute; top: 20px; left: 20px; border: 2px solid rgb(38, 38, 38); border-radius: 8px; padding: 5px;">
         <a href="/dashboard">
             <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
-                <
+                &lt;
             </button>
         </a>
     </div>
@@ -128,31 +128,34 @@
         <i style="font-family: 'Palatino Linotype', serif;">Just for you</i>
     </header>
 
-    <div class="container">
-        @if(session('error'))
-            <p class="error-message">{{ session('error') }}</p>
-        @endif
+  <div class="container">
+    @if(session('error'))
+        <p class="error-message" style="color: red;">{{ session('error') }}</p>
+    @endif
 
-        @if(isset($recipes) && !empty($recipes))
-    @foreach($recipes as $recipe)
-        <div class="recipe-card">
-            <h2 class="recipe-title">Resep:</h2>
-            <div class="recipe-info">
-                {!! nl2br(e($recipe['recipe'])) !!}
+    @if(!empty($recipes))
+        @foreach($recipes as $recipe)
+            <div class="recipe-card">
+                <h2 class="recipe-title">Recipe:</h2>
+                <div class="recipe-info">
+                    {!! nl2br(e($recipe['recipe'])) !!}  <!-- Jika $recipe adalah array, akses dengan indeks -->
+                </div>
+                <!-- Formulir untuk menghapus resep -->
+                <form action="{{ route('recipes.delete', $recipe['id']) }}" method="POST" style="margin-top: 10px;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Delete</button>
+                </form>
             </div>
-            <form action="{{ route('recipes.delete', $recipe['id']) }}" method="POST" style="margin-top: 10px;">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Delete</button>
-            </form>
-        </div>
-    @endforeach
-@else
-    <p class="error-message">No recipes available.</p>
-@endif
+        @endforeach
+    @else
+        <p class="error-message" style="color: red;">No recipes available.</p>
+    @endif
 
-
-        <a href="/foods">Back to Foods</a>
+    <div class="back">
+        <a href="/foods"><button><i class="fa fa-arrow-left"></i> Back to Foods</button></a>
     </div>
+</div>
+
 </body>
 </html>
