@@ -150,10 +150,10 @@
         }
         #calendar {
             width: 80%;
-            height: 60vh; /* Reduced height to avoid overlapping with buttons */
-            margin: 120px auto 20px; /* Added top margin to account for header and avoid overlap */
-            border: 2px solid #ccc; /* Ensures the element is visible */
-            background-color: #f0f0f0; /* Clear background */
+            height: 60vh; 
+            margin: 120px auto 20px; 
+            border: 2px solid #ccc; 
+            background-color: #f0f0f0; 
         }
 
     </style>
@@ -177,21 +177,15 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: [
+                @if (!empty($foods) && is_iterable($foods))
+                    @foreach ($foods as $food)
                     {
-                        title: 'Sample Food 1',
-                        start: '2025-05-09',
+                        title: '{{ $food['name'] }}',
+                        start: '{{ $food['expiry_date'] }}',
                         color: '#ff5722'
-                    },
-                    {
-                        title: 'Sample Food 2',
-                        start: '2025-12-05',
-                        color: '#4caf50'
-                    },
-                    {
-                        title: 'Sample Food 3',
-                        start: '2025-12-10',
-                        color: '#2196f3'
-                    }
+                    }@if (!$loop->last),@endif
+                    @endforeach
+                @endif
                 ],
                 editable: true,
                 eventLimit: true,
@@ -199,7 +193,7 @@
                 contentHeight: 'auto' 
             });
         });
-    </script>
+        </script>
 
 
     </script>

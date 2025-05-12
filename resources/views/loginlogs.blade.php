@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+           background: linear-gradient(to right, #6a11cb, #2575fc);
             margin: 0;
             padding: 0;
         }
@@ -63,11 +63,26 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .btn-back {
+            background-color:rgb(0, 21, 44);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-back:hover {
+            background-color:rgb(7, 192, 224);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <div style="text-align: left;">
+            <button onclick="window.location.href='{{ url()->previous() }}'" class="btn-back">Back</button>
+        </div>
         <h1>Login Logs</h1>
 
         @if(session('error'))
