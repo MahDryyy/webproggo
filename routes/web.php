@@ -3,7 +3,7 @@
 use App\Http\Controllers\GolangApiController;
 use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
-    return redirect('/login');
+    return view('login');
 });
 Route::get('/register', [GolangApiController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [GolangApiController::class, 'register']);
