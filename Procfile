@@ -1,2 +1,2 @@
-web: php artisan serve 
+web: php artisan serve;
 npm run build
