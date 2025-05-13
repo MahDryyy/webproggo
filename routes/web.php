@@ -10,7 +10,6 @@ Route::post('/register', [GolangApiController::class, 'register']);
 Route::get('/login', [GolangApiController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [GolangApiController::class, 'login']);
 Route::get('/foods', [GolangApiController::class, 'getFoods']);
-//new
 Route::get('/foods-calender', [GolangApiController::class, 'getFoodsCalendarApi']);
 Route::get('/admin-dashboard', [GolangApiController::class, 'activityLogs']);
 Route::get('/login-logs', [GolangApiController::class, 'getLoginLogs'])->name('loginlogs.index');
