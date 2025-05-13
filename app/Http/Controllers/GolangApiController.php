@@ -176,7 +176,7 @@ public function dashboard()
                 $food['color'] ='red';
                 $food['icon'] = '❌';
 
-            }elseif($diffInDays < 3){
+            }elseif($diffInDays < 14){
                 $food['status'] = 'warning';
                 $food['color'] ='orange';
                 $food['icon'] = '⚠️';

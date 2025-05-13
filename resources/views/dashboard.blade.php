@@ -13,8 +13,8 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f7f9fc 0%, #a8edea 50%, #fed6e3 100%);
-            color: #333;
+            background: #474E68;
+            color: #232946;
             margin: 0;
             padding: 0;
             display: flex;
@@ -26,13 +26,14 @@
         }
 
         .header {
-            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
-            color: white;
+            border-radius: 0px;
+            background: #404258;
+            box-shadow:  -43px 43px 100px #0d142c;
+            color: #fff;
             width: 100%;
             padding: 28px 0 22px 0;
             text-align: center;
-            box-shadow: 0 4px 24px rgba(24,90,157,0.18);
-            position: fixed;
+            position: static;
             top: 0;
             z-index: 1000;
         }
@@ -43,19 +44,20 @@
             letter-spacing: 2px;
             font-weight: 700;
             animation: fadeInDown 1.5s ease-in-out;
-            text-shadow: 0 2px 12px rgba(24,90,157,0.18);
+            text-shadow: 0 2px 12px rgba(35,49,66,0.08);
         }
 
         .description {
             font-size: 1.2em;
-            color: #444;
+            color: #232946;
             text-align: center;
             padding: 24px;
-            margin-top: 110px;
+            margin-top: 90px;
+            margin-bottom: 24px;
             max-width: 700px;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.7);
-            box-shadow: 0 2px 16px rgba(67,206,162,0.08);
+            border-radius: 24px;
+            background: linear-gradient(225deg,rgb(253, 253, 253), #d6d9dd);
+            box-shadow: 0px 3px 40px rgba(248, 243, 243, 0.73);
             animation: fadeInUp 1.5s ease-in-out;
         }
 
@@ -68,20 +70,20 @@
         }
 
         .dashboard-button {
-            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            background: linear-gradient(90deg, #3e6ff4 0%, #5be9b9 100%);
             color: #fff;
             padding: 22px 38px;
             font-size: 1.2em;
             border: none;
             border-radius: 16px;
             cursor: pointer;
-            transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+            transition: transform 0.25s, box-shadow 0.25s, background 0.25s, color 0.25s;
             width: 250px;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 28px rgba(24,90,157,0.13);
+            box-shadow: 0 8px 28px rgba(62,111,244,0.13);
             position: relative;
             overflow: hidden;
             font-weight: 600;
@@ -89,9 +91,10 @@
         }
 
         .dashboard-button:hover {
-            background: linear-gradient(135deg, #185a9d 0%, #43cea2 100%);
-            transform: translateY(-8px) scale(1.04);
-            box-shadow: 0 16px 32px rgba(24,90,157,0.18);
+            background: linear-gradient(90deg, #5be9b9 0%, #3e6ff4 100%);
+            color: #232946;
+            transform: scale(1.08);
+            box-shadow: 0 16px 32px rgba(91,233,185,0.15);
         }
 
         .dashboard-button i {
@@ -102,20 +105,20 @@
         .footer {
             margin-top: 48px;
             font-size: 1em;
-            color: #888;
+            color:rgb(216, 218, 219);
             text-align: center;
             animation: fadeInUp 1.5s ease-in-out;
         }
 
         .footer a {
-            color: #43cea2;
+            color: #3e6ff4;
             text-decoration: none;
             font-weight: 700;
             transition: color 0.2s;
         }
 
         .footer a:hover {
-            color: #185a9d;
+            color: #5be9b9;
             text-decoration: underline;
         }
 
@@ -143,30 +146,27 @@
 
         #calendar {
             width: 82%;
-            height: 60vh;
+            height: 50vh;
             margin: 130px auto 24px;
             border-radius: 22px;
-            border: 2px solid #43cea2;
-            background: linear-gradient(120deg, #f0f0f0 60%, #a8edea 100%);
-            box-shadow: 0 6px 32px rgba(67,206,162,0.13);
+            background: linear-gradient(225deg,rgb(253, 253, 253), #d6d9dd);
+            box-shadow: 0px 3px 40px rgba(248, 243, 243, 0.73);
             box-sizing: border-box;
             position: relative;
-            overflow: auto;
+            overflow: hidden;
             z-index: 1;
-        }
+        }   
 
         .alert {
             padding: 18px;
-            background: linear-gradient(90deg, #fffbe7 60%, #ffe3e3 100%);
-            border: 1.5px solid #ffeeba;
-            color: #856404;
+            background: linear-gradient(225deg,rgb(253, 253, 253), #d6d9dd);
+            color: #232946;
             border-radius: 10px;
-            margin-bottom: 22px;
-            margin-top: 20px;
+            margin-top: 60px;
             width: 90vw;
             max-width: 700px;
             box-sizing: border-box;
-            box-shadow: 0 2px 12px rgba(255, 206, 86, 0.13);
+            box-shadow: 0px 3px 40px rgba(248, 243, 243, 0.73);
             font-size: 1.08em;
             font-weight: 500;
         }

@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f7f9fc;
+            background-color: #404258;
             color: #333;
             margin: 0;
             padding: 0;
@@ -18,45 +18,72 @@
             height: 100vh;
         }
         .form-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 12px;
+            background-color: #474E68;
+            padding: 20px 30px;
+            border-radius: 10px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 350px;
             text-align: center;
+            margin: 50px auto;
         }
         .form-container h3 {
             font-size: 2em;
             margin-bottom: 20px;
-            color: #4caf50;
+            color:rgb(255, 255, 255);
         }
-        .form-container input {
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-align: left;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="date"] {
             width: 100%;
-            padding: 12px;
-            margin: 12px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 1em;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+            background-color: #333333;
+            color: white;
             transition: border-color 0.3s ease;
         }
-        .form-container input:focus {
-            border-color: #4caf50;
+        .form-container input[type="text"]:focus,
+        .form-container input[type="date"]:focus {
+            border: 1.5px solid #4caf50;
             outline: none;
         }
-        .form-container button {
-            width: 100%;
-            padding: 14px;
-            background-color: #4caf50;
-            border: none;
-            border-radius: 8px;
-            color: white;
+        .form-container button[type="submit"] {
+            background: linear-gradient(90deg, #3e6ff4 0%, #5be9b9 100%);
+            color: #fff;
+            padding: 22px 38px;
             font-size: 1.2em;
+            border: none;
+            border-radius: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: transform 0.25s, box-shadow 0.25s, background 0.25s, color 0.25s;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 28px rgba(62,111,244,0.13);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 36px;
         }
-        .form-container button:hover {
-            background-color: #45a049;
+
+        .form-container button[type="submit"]:hover {
+            background: linear-gradient(90deg, #5be9b9 0%, #3e6ff4 100%);
+            color: #232946;
+            transform: scale(1.08);
+            box-shadow: 0 16px 32px rgba(91,233,185,0.15);
         }
         p.error {
             color: red;
@@ -103,14 +130,45 @@
                 font-size: 1.8em;
             }
         }
+        .back button {
+            background: linear-gradient(90deg, #3e6ff4 0%, #5be9b9 100%);
+            color: #fff;
+            padding: 22px 38px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.25s, background 0.25s, color 0.25s;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 28px rgba(62,111,244,0.13);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .back button:hover {
+            background: linear-gradient(90deg, #5be9b9 0%, #3e6ff4 100%);
+            color: #232946;
+            transform: scale(1.08);
+            box-shadow: 0 16px 32px rgba(91,233,185,0.15);
+        }
+        .back button i {
+            margin-right: 12px;
+            font-size: 1.5em;
+        }
+    
     </style>
 </head>
 <body>
-    <div style="position: absolute; top: 20px; left: 20px;">
+    <div class="back" style="position: absolute; top: 20px; left: 20px;">
         <a href="/dashboard">
             <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
-                <
-            </button>
+            <
+        </button>
         </a>
     </div>
 
