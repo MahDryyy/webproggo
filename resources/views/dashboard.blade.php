@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f7f9fc, #e8f5e9);
+            background: linear-gradient(135deg, #f7f9fc 0%, #a8edea 50%, #fed6e3 100%);
             color: #333;
             margin: 0;
             padding: 0;
@@ -26,12 +26,12 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #4caf50, #81c784);
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
             color: white;
             width: 100%;
-            padding: 20px 0;
+            padding: 28px 0 22px 0;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 24px rgba(24,90,157,0.18);
             position: fixed;
             top: 0;
             z-index: 1000;
@@ -41,75 +41,66 @@
             font-size: 3.5em;
             margin: 0;
             letter-spacing: 2px;
-            font-weight: 600;
+            font-weight: 700;
             animation: fadeInDown 1.5s ease-in-out;
+            text-shadow: 0 2px 12px rgba(24,90,157,0.18);
         }
 
         .description {
             font-size: 1.2em;
-            color: #555;
+            color: #444;
             text-align: center;
-            padding: 20px;
-            margin-top: 100px;
+            padding: 24px;
+            margin-top: 110px;
             max-width: 700px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.7);
+            box-shadow: 0 2px 16px rgba(67,206,162,0.08);
             animation: fadeInUp 1.5s ease-in-out;
         }
 
         .button-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
+            gap: 32px;
+            margin-top: 36px;
             flex-wrap: wrap;
         }
 
         .dashboard-button {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            padding: 20px 35px;
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            padding: 22px 38px;
             font-size: 1.2em;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
             width: 250px;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 28px rgba(24,90,157,0.13);
             position: relative;
             overflow: hidden;
-        }
-
-        .dashboard-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(76, 175, 80, 0.2);
-            z-index: 0;
-            transition: left 0.3s ease;
-        }
-
-        .dashboard-button:hover::before {
-            left: 0;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
         .dashboard-button:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #185a9d 0%, #43cea2 100%);
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 16px 32px rgba(24,90,157,0.18);
         }
 
         .dashboard-button i {
-            margin-right: 10px;
+            margin-right: 12px;
             font-size: 1.5em;
         }
 
         .footer {
-            margin-top: 40px;
+            margin-top: 48px;
             font-size: 1em;
             color: #888;
             text-align: center;
@@ -117,12 +108,14 @@
         }
 
         .footer a {
-            color: #4caf50;
+            color: #43cea2;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            transition: color 0.2s;
         }
 
         .footer a:hover {
+            color: #185a9d;
             text-decoration: underline;
         }
 
@@ -146,16 +139,63 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-
         }
+
         #calendar {
-            width: 80%;
-            height: 60vh; 
-            margin: 120px auto 20px; 
-            border: 2px solid #ccc; 
-            background-color: #f0f0f0; 
+            width: 82%;
+            height: 60vh;
+            margin: 130px auto 24px;
+            border-radius: 22px;
+            border: 2px solid #43cea2;
+            background: linear-gradient(120deg, #f0f0f0 60%, #a8edea 100%);
+            box-shadow: 0 6px 32px rgba(67,206,162,0.13);
+            box-sizing: border-box;
+            position: relative;
+            overflow: auto;
+            z-index: 1;
         }
 
+        .alert {
+            padding: 18px;
+            background: linear-gradient(90deg, #fffbe7 60%, #ffe3e3 100%);
+            border: 1.5px solid #ffeeba;
+            color: #856404;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            margin-top: 20px;
+            width: 90vw;
+            max-width: 700px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 12px rgba(255, 206, 86, 0.13);
+            font-size: 1.08em;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            #calendar {
+                width: 98%;
+            }
+            .description {
+                margin-top: 120px;
+            }
+        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2.1em;
+            }
+            .description {
+                font-size: 1em;
+                padding: 12px;
+            }
+            .dashboard-button {
+                width: 98vw;
+                font-size: 1em;
+                padding: 16px 0;
+            }
+            #calendar {
+                margin-top: 140px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -167,36 +207,8 @@
         <p>Welcome to the <strong>SaveBite Dashboard</strong>! Manage your food data, track expiration dates, and keep your food fresh with ease.</p>
     </div>
 
+    <div id="notification-area"></div>
     <div id="calendar"></div>
-    <script>
-        $(document).ready(function() {
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                events: [
-                @if (!empty($foods) && is_iterable($foods))
-                    @foreach ($foods as $food)
-                    {
-                        title: '{{ $food['name'] }}',
-                        start: '{{ $food['expiry_date'] }}',
-                        color: '#ff5722'
-                    }@if (!$loop->last),@endif
-                    @endforeach
-                @endif
-                ],
-                editable: true,
-                eventLimit: true,
-                height: 'auto', 
-                contentHeight: 'auto' 
-            });
-        });
-        </script>
-
-
-    </script>
 
     <div class="button-container">
         <a href="/recipes" style="text-decoration: none;">
@@ -221,5 +233,69 @@
     </div>
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+    $(document).ready(function() {
+        const calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: true,
+            eventLimit: true,
+            height: 'auto',
+            contentHeight: 'auto',
+            events: fetchEvents
+        });
+
+        function fetchEvents(start, end, timezone, callback) {
+            $.ajax({
+                url: '/foods-calender',
+                method: 'GET',
+                success: function(data) {
+                    const now = new Date();
+                    let notifications = [];
+
+                    const events = data.map(food => {
+                        const expiry = new Date(food.expiry_date);
+                        const diffDays = Math.floor((expiry - now) / (1000 * 60 * 60 * 24));
+
+                        let color = '#43cea2'; // hijau
+                        if (diffDays < 0) {
+                            color = '#ff4d4d'; // merah
+                            notifications.push(`❌ <strong>${food.name}</strong> sudah expired!`);
+                        } else if (diffDays <= 14) {
+                            color = '#ffb347'; // oranye
+                            notifications.push(`⚠️ <strong>${food.name}</strong> akan expired dalam ${diffDays} hari.`);
+                        }
+
+                        return {
+                            title: food.name,
+                            start: food.expiry_date,
+                            color: color
+                        };
+                    });
+
+                    const notifArea = $('#notification-area');
+                    if (notifications.length > 0) {
+                        notifArea.html(
+                            `<div class="alert alert-warning" role="alert">
+                                <strong>Perhatian!</strong><br>${notifications.join('<br>')}
+                             </div>`
+                        );
+                    } else {
+                        notifArea.html('');
+                    }
+
+                    callback(events);
+                }
+            });
+        }
+
+        setInterval(function() {
+            $('#calendar').fullCalendar('refetchEvents');
+        }, 600000);
+    });
+    </script>
 </body>
 </html>

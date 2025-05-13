@@ -96,7 +96,7 @@
 
         .reload-button {
             padding: 10px 20px;
-            background-color: #f44336;
+            background-color:rgb(16, 196, 0);
             color: white;
             border: none;
             border-radius: 5px;
@@ -170,25 +170,33 @@
     @if(empty($foods))
         <p style="text-align: center; font-size: 1.2em; color: #ff5722;">No foods available. Please add some food items.</p>
     
-    @else
-        <form id="recipeForm">
-            <ul>
-                @foreach($foods as $food)
-                    <li data-aos="fade-up">
-                        <div>
-                            <input type="checkbox" class="food-checkbox" data-food-id="{{ $food['id'] }}"> 
-                            <strong>{{ $food['name'] }}</strong> - Expiry: {{ $food['expiry_date'] }}
-                        </div>
-                        <button type="button" class="delete-button" onclick="deleteFood({{ $food['id'] }})"><i class="fas fa-trash"></i> Delete</button>
-                        <div id="recipe-{{ $food['id'] }}" class="recipe-content"></div>
-                    </li>
-                @endforeach
-            </ul>
-            <button type="submit" style="margin-top: 20px;">Generate Recipes</button>
-        </form>
-    @endif
+@else
+    <form id="recipeForm">
+        <ul>
+            @foreach($foods as $food)
+                <li data-aos="fade-up">
+                    <div style="color: {{ $food['color'] }};">
+                        <input type="checkbox" class="food-checkbox" data-food-id="{{ $food['id'] }}"> 
+                        <strong>{{ $food['icon'] }} {{ $food['name'] }}</strong>
+                        - Expiry: {{ $food['expiry_date'] }}
+                        <br>
+                        <small style="font-weight: bold;">Status: {{ ucfirst($food['status']) }}</small>
+                    </div>
+                    
+                    <button type="button" class="delete-button" onclick="deleteFood({{ $food['id'] }})">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
 
-    <button class="reload-button" onclick="location.reload()">Reload Page</button>
+                    <div id="recipe-{{ $food['id'] }}" class="recipe-content"></div>
+                </li>
+            @endforeach
+        </ul>
+
+        <button type="submit" style="margin-top: 20px;">Generate Recipes</button>
+    </form>
+@endif
+
+   
 
     <div id="recipe-result" class="recipe-content"></div>
 
@@ -199,6 +207,7 @@
             <button class="delete-cancel-button" onclick="cancelDelete()">Cancel</button>
         </div>
     </div>
+     <button class="reload-button" onclick="location.reload()">Good</button>
 
     <script>
     AOS.init();

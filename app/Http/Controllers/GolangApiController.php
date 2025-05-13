@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use carbon\carbon;
 
 class GolangApiController extends Controller
 {
@@ -164,9 +165,67 @@ public function dashboard()
             $foods = [];
         }
 
+        $foods = collect($foods)->map(function ($food) {
+            $expiry = Carbon::parse($food['expiry_date']);
+            $today = Carbon::today();
+            $expiryDate = $food['expiry_date'];
+            $diffInDays = $today->diffInDays($expiryDate, false);
+
+            if($diffInDays < 0){
+                $food['status'] = 'expired';
+                $food['color'] ='red';
+                $food['icon'] = '❌';
+
+            }elseif($diffInDays < 3){
+                $food['status'] = 'warning';
+                $food['color'] ='orange';
+                $food['icon'] = '⚠️';
+            }else{
+                $food['status'] = 'safe';
+                $food['color'] ='green';
+                $food['icon'] = '✅';
+            }
+
+            return $food;
+        })
+        ->sortBy(function ($food) {
+            $iconOrder = ['❌' => 0, '⚠️' => 1, '✅' => 2];
+            return $iconOrder[$food['icon']] ?? 3;
+        })
+        ->values();
+
         return view('foods', ['foods' => $foods]);
-        return response()->json($foods);
+
+        
     }
+
+
+    public function getFoodsCalendarApi()
+{
+    $token = Session::get('token');
+    if (!$token) {
+        return response()->json([]);
+    }
+
+    $response = Http::withToken($token)->get($this->api . '/foods');
+    $foods = $response->successful() ? $response->json() : [];
+
+    $now = now();
+
+    $foods = collect($foods)->map(function ($food) use ($now) {
+        $expiry = \Carbon\Carbon::parse($food['expiry_date']);
+        $diffDays = $expiry->diffInDays($now, false); 
+
+        $food['is_near_expired'] = $diffDays <= 14 && $diffDays >= 0;
+        $food['is_expired'] = $diffDays < 0;
+
+        return $food;
+    });
+
+    return response()->json($foods);
+}
+
+
 
     public function addFood(Request $r)
     {
