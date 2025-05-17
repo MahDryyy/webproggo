@@ -85,9 +85,6 @@
             <a href="/user" class="btn btn-secondary btn-lg">
                 <i class="fas fa-user"></i> Lihat Data User
             </a>
-            <a href="/settings" class="btn btn-info btn-lg">
-                <i class="fas fa-cogs"></i> Pengaturan
-            </a>
         </div>
     </div>
 
