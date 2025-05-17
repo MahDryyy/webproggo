@@ -211,17 +211,17 @@
     <div id="calendar"></div>
 
     <div class="button-container">
-        <a href="/recipes" style="text-decoration: none;">
+        <a href="{{ url('/recipes') }}" style="text-decoration: none;">
             <button class="dashboard-button">
                 <i class="fas fa-utensils"></i> History Recipes
             </button>
         </a>
-        <a href="/foods/add" style="text-decoration: none;">
+        <a href="{{ url('/foods/add') }}" style="text-decoration: none;">
             <button class="dashboard-button">
                 <i class="fas fa-plus-circle"></i> Add New Food
             </button>
         </a>
-        <a href="/foods" style="text-decoration: none;">
+        <a href="{{ url('/foods') }}" style="text-decoration: none;">
             <button class="dashboard-button">
                 <i class="fas fa-eye"></i> View Food Data
             </button>
@@ -250,7 +250,7 @@
 
         function fetchEvents(start, end, timezone, callback) {
             $.ajax({
-                url: '/foods-calender',
+                url: '{{ url('/foods-calender') }}',
                 method: 'GET',
                 success: function(data) {
                     const now = new Date();

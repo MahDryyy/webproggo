@@ -177,12 +177,12 @@
         @endif
 
         <div style="display:flex; justify-content:space-between; margin-top:32px;">
-            <a href="/dashboard" style="text-decoration:none;">
+            <a href="{{ url('/dashboard') }}" style="text-decoration:none;">
                 <button style="background:#f7b731; color:#222; border:none; border-radius:5px; padding:8px 18px; font-weight:bold; cursor:pointer;">
                     <i class="fa fa-home"></i> Dashboard
                 </button>
             </a>
-            <a href="/foods" style="text-decoration:none;">
+            <a href="{{ url('/foods') }}" style="text-decoration:none;">
                 <button style="background:#f7b731; color:#222; border:none; border-radius:5px; padding:8px 18px; font-weight:bold; cursor:pointer;">
                     <i class="fa fa-arrow-left"></i> Kembali ke Foods
                 </button>

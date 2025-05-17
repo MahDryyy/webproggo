@@ -165,10 +165,10 @@
 </head>
 <body>
     <div class="back" style="position: absolute; top: 20px; left: 20px;">
-        <a href="/dashboard">
+        <a href="{{ url('/dashboard') }}">
             <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
             <
-        </button>
+            </button>
         </a>
     </div>
 
@@ -179,7 +179,7 @@
         <p class="error">{{ session('error') }}</p>
     @endif
 
-    <form action="/foods" method="POST">
+    <form action="{{ url('/foods') }}" method="POST">
         @csrf
         <label for="name">Food Name:</label>
         <input type="text" id="name" name="name" placeholder="Enter food name" required>
@@ -193,7 +193,7 @@
 
 @if(session('success'))
     <div class="success-message" id="successMessage">
-        Food added successfully! <br> <a href="/foods">Click here to view foods</a>
+        Food added successfully! <br> <a href="{{ url('/foods') }}">Click here to view foods</a>
     </div>
 @endif
 
@@ -204,7 +204,7 @@
 
        
         setTimeout(function() {
-            window.location.href = '/foods'; 
+            window.location.href = '{{ url('/foods') }}'; 
         }, 3000);
     @endif
 </script>

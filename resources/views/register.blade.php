@@ -121,7 +121,7 @@
 
     <div class="container">
         <h1>Register</h1>
-        <form action="/register" method="POST">
+        <form action="{{ url('/register') }}" method="POST">
             @csrf
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" required>
@@ -138,7 +138,7 @@
             <p class="error">{{ session('error') }}</p>
         @endif
 
-        <p>Sudah punya akun? <a href="/login">Login di sini</a></p>
+        <p>Sudah punya akun? <a href="{{ url('/login') }}">Login di sini</a></p>
 
         <div class="footer">
             <p>© 2025 SaveBite. All rights reserved.</p>

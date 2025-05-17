@@ -79,10 +79,10 @@
         </div>
 
         <div class="d-flex justify-content-center gap-4">
-            <a href="{{ route('loginlogs.index') }}" class="btn btn-primary btn-lg">
+            <a href="{{ url('/loginlogs') }}" class="btn btn-primary btn-lg">
                 <i class="fas fa-list"></i> Lihat Login Logs
             </a>
-            <a href="/user" class="btn btn-secondary btn-lg">
+            <a href="{{ url('/user') }}" class="btn btn-secondary btn-lg">
                 <i class="fas fa-user"></i> Lihat Data User
             </a>
         </div>

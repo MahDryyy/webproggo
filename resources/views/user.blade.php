@@ -1,5 +1,3 @@
-
-
 <!-- resources/views/users/index.blade.php -->
 
 <!DOCTYPE html>
@@ -13,7 +11,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-             background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             color: #333;
         }
         header {
@@ -48,7 +46,7 @@
             color: red;
             margin-bottom: 1rem;
         }
-           .btn-back {
+        .btn-back {
             background-color:rgb(0, 21, 44);
             color: white;
             border: none;

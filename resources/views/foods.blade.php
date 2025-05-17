@@ -219,10 +219,10 @@
 </head>
 <body>
     <div class="back" style="position: absolute; top: 20px; left: 20px;">
-        <a href="/dashboard">
+        <a href="{{ url('/dashboard') }}">
             <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">
             <
-        </button>
+            </button>
         </a>
     </div>
     <h1>Foods</h1>
@@ -279,7 +279,7 @@
             $('button[type="submit"]').text('Loading...').attr('disabled', true);
             $('#recipe-result').html('<div class="loading">Loading...</div>').fadeIn();
             $.ajax({
-                url: '/recipe',
+                url: '{{ url('/recipe') }}',
                 method: 'POST',
                 data: JSON.stringify({
                     _token: '{{ csrf_token() }}',
@@ -313,7 +313,7 @@
         $('#delete-confirmation').html('<div class="loading">Deleting...</div>');
         if (foodToDelete !== null) {
             $.ajax({
-                url: '/foods/' + foodToDelete,
+                url: '{{ url('/foods') }}/' + foodToDelete,
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
